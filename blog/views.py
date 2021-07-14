@@ -1,3 +1,4 @@
+import blog
 from typing import KeysView
 from django import db, forms
 from django.core.files.base import ContentFile
@@ -12,7 +13,7 @@ from django.utils import timezone
 from .models import Post
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
+from django.views.generic import ListView,DetailView,CreateView,UpdateView
 
 class post_list(ListView):
     model = Post
@@ -39,7 +40,10 @@ class post_edit(UpdateView):
 
     def form_valid(self, form):
         form.instance.author_id = self.request.user.id
-        return super(post_new,self).form_valid(form)
+        return super(post_edit,self).form_valid(form)
 
-
-
+class post_delete(DeleteView):
+    template_name = 'blog/post_delete.html'
+    model = Post
+    form_class = PostForm
+    success_url = '/'
