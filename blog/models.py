@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib.auth.models import update_last_login
 from django.db import models
 from django.utils import timezone
 

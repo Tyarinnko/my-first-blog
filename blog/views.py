@@ -13,7 +13,6 @@ from .models import Post
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.views.generic import ListView,DetailView,CreateView,UpdateView,DeleteView
-from django.urls import reverse
 
 class post_list(ListView):
     model = Post
@@ -28,6 +27,9 @@ class post_new(CreateView):
     form_class = PostForm
     success_url = '/'
 
+    def form_valid(self, form):
+        form.instance.author_id = self.request.user.id
+        return super(post_new,self).form_valid(form)
 
 class post_edit(UpdateView):
     template_name = 'blog/post_edit.html'
@@ -35,9 +37,9 @@ class post_edit(UpdateView):
     form_class = PostForm
     success_url = '/'
 
-class post_delete(DeleteView):
-    template_name ='blog/post_delete.html'
-    model = Post
-    success_url = '/'
+    def form_valid(self, form):
+        form.instance.author_id = self.request.user.id
+        return super(post_new,self).form_valid(form)
+
 
 
