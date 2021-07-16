@@ -30,6 +30,7 @@ class post_new(CreateView):
 
     def form_valid(self, form):
         form.instance.author_id = self.request.user.id
+        form.instance.published_date = timezone.now()
         return super(post_new,self).form_valid(form)
 
 class post_edit(UpdateView):
@@ -40,6 +41,7 @@ class post_edit(UpdateView):
 
     def form_valid(self, form):
         form.instance.author_id = self.request.user.id
+        form.instance.published_date = timezone.now()
         return super(post_edit,self).form_valid(form)
 
 class post_delete(DeleteView):
